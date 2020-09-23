@@ -6,7 +6,7 @@ export class Home extends Component {
   render () {
     return (
       <div>
-        <h1>Bem vindo a Localiza</h1>
+        <h1>Bem vindo</h1>
         <p>Selecione a opção desejada, no meu superior</p>
       </div>
     );
