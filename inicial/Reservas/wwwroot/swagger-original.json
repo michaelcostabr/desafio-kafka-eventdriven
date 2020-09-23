@@ -1,0 +1,124 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API de Reservas",
+    "version" : "1.0.0",
+    "title" : "Reservas API",
+    "contact" : {
+      "email" : "michael.costa@localiza.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/michaelcosta/Reservas/1.0.0",
+  "tags" : [ {
+    "name" : "admins",
+    "description" : "Secured Admin-only calls"
+  }, {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/carros" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "Busca reservas",
+        "description" : "Retorna lista de reservas disponíveis\n",
+        "operationId" : "buscarReservas",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "loja",
+          "in" : "query",
+          "description" : "código da loja (opcional)",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "resultados conforme critérios informados",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Reserva"
+              }
+            }
+          },
+          "400" : {
+            "description" : "entrada inválida"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "admins" ],
+        "summary" : "adiciona uma reserva",
+        "description" : "adiciona uma reserva a loja/carro",
+        "operationId" : "adicionarReserva",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Reserva",
+          "description" : "Reserva a adicionar",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Reserva"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "reserva criado"
+          },
+          "400" : {
+            "description" : "entrada inválida, objeto inválido"
+          },
+          "409" : {
+            "description" : "uma reserva com esses dados já existe"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Reserva" : {
+      "type" : "object",
+      "required" : [ "localizador", "loja", "placa", "status" ],
+      "properties" : {
+        "localizador" : {
+          "type" : "string",
+          "example" : "WS12345"
+        },
+        "placa" : {
+          "type" : "string",
+          "example" : "ABC1234"
+        },
+        "idCLiente" : {
+          "type" : "integer",
+          "example" : 1
+        },
+        "loja" : {
+          "type" : "string",
+          "example" : "ACBHZ\\"
+        },
+        "status" : {
+          "example" : "aberta"
+        },
+        "idPagamento" : {
+          "type" : "integer",
+          "example" : 1
+        }
+      },
+      "example" : {
+        "idPagamento" : 1,
+        "loja" : "ACBHZ\\",
+        "localizador" : "WS12345",
+        "placa" : "ABC1234",
+        "idCLiente" : 1,
+        "status" : "aberta"
+      }
+    }
+  }
+}

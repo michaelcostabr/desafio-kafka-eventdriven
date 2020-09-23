@@ -1,0 +1,110 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API de Carros",
+    "version" : "1.0.0",
+    "title" : "Carros API",
+    "contact" : {
+      "email" : "michael.costa@localiza.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/michaelcosta/Carros/1.0.0",
+  "tags" : [ {
+    "name" : "admins",
+    "description" : "Secured Admin-only calls"
+  }, {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/carros" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "Busca carros",
+        "description" : "Retorna lista de carros disponíveis\n",
+        "operationId" : "buscarCarros",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "loja",
+          "in" : "query",
+          "description" : "código da loja (opcional)",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "resultados conforme critérios informados",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Carro"
+              }
+            }
+          },
+          "400" : {
+            "description" : "entrada inválida"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "admins" ],
+        "summary" : "adiciona um carro",
+        "description" : "adiciona um carro ao estoque",
+        "operationId" : "adicionarCarro",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Carro",
+          "description" : "Carro a adicionar",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Carro"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "carro criado"
+          },
+          "400" : {
+            "description" : "entrada inválida, objeto inválido"
+          },
+          "409" : {
+            "description" : "um carro com esses dados já existe"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Carro" : {
+      "type" : "object",
+      "required" : [ "descricao", "loja", "placa" ],
+      "properties" : {
+        "placa" : {
+          "type" : "string",
+          "example" : "ABC1234"
+        },
+        "descricao" : {
+          "type" : "string",
+          "example" : "VW T-Cross"
+        },
+        "loja" : {
+          "type" : "string",
+          "example" : "ACBHZ"
+        }
+      },
+      "example" : {
+        "loja" : "ACBHZ",
+        "placa" : "ABC1234",
+        "descricao" : "VW T-Cross"
+      }
+    }
+  }
+}

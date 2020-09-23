@@ -1,0 +1,104 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API de Pagamentos",
+    "version" : "1.0.0",
+    "title" : "Pagamentos API",
+    "contact" : {
+      "email" : "michael.costa@localiza.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/michaelcosta/Pagamentos/1.0.0",
+  "tags" : [ {
+    "name" : "admins",
+    "description" : "Secured Admin-only calls"
+  }, {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/pagamentos" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "Busca Pagamento",
+        "description" : "Retorna lista de pagamentos disponíveis\n",
+        "operationId" : "buscarPagamento",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "código do pagamento (opcional)",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "resultados conforme critérios informados",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Pagamento"
+              }
+            }
+          },
+          "400" : {
+            "description" : "entrada inválida"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "admins" ],
+        "summary" : "adiciona um pagamento",
+        "description" : "adiciona um pagamento",
+        "operationId" : "adicionarParamento",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Pagamento",
+          "description" : "Pagamento a adicionar",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Pagamento"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Pagamento criado"
+          },
+          "400" : {
+            "description" : "entrada inválida, objeto inválido"
+          },
+          "409" : {
+            "description" : "um pagamento com esses dados já existe"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Pagamento" : {
+      "type" : "object",
+      "required" : [ "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 1
+        },
+        "status" : {
+          "example" : "em aberto"
+        }
+      },
+      "example" : {
+        "id" : 1,
+        "status" : "em aberto"
+      }
+    }
+  }
+}

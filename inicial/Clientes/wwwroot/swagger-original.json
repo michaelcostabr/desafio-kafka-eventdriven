@@ -1,0 +1,105 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API de Clientes",
+    "version" : "1.0.0",
+    "title" : "Clientes API",
+    "contact" : {
+      "email" : "michael.costa@localiza.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/michaelcosta/Cliente/1.0.0",
+  "tags" : [ {
+    "name" : "admins",
+    "description" : "Secured Admin-only calls"
+  }, {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/clientes" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "Busca clientes",
+        "description" : "Retorna lista de clientes disponíveis\n",
+        "operationId" : "buscarClientes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "Código da cliente (opcional)",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Resultados conforme critérios informados",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Cliente"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Entrada inválida"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "admins" ],
+        "summary" : "Adiciona um cliente",
+        "description" : "adiciona um cliente",
+        "operationId" : "adicionarCliente",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Cliente",
+          "description" : "Cliente a ser inserido",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Cliente"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Cliente criado"
+          },
+          "400" : {
+            "description" : "entrada inválida, objeto inválido"
+          },
+          "409" : {
+            "description" : "Um cliente com esses dados já existe"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Cliente" : {
+      "type" : "object",
+      "required" : [ "nome" ],
+      "properties" : {
+        "placa" : {
+          "type" : "integer",
+          "example" : 1
+        },
+        "nome" : {
+          "type" : "string",
+          "example" : "José da Silva"
+        }
+      },
+      "example" : {
+        "nome" : "José da Silva",
+        "placa" : 1
+      }
+    }
+  }
+}
